@@ -3,6 +3,7 @@ import { PricesController } from './prices.controller';
 import { PricesService } from './prices.service';
 
 describe('PricesController', () => {
+  //o controller real de prices utiliza o service real, portanto esse controller utilizando mocks foi criado para os testes
   let controller: PricesController;
 
   const mockPricesService = {

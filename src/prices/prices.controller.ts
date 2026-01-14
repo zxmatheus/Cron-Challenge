@@ -12,7 +12,7 @@ export class PricesController {
   @Get(':symbol')
   async getPrices(
     @Param('symbol') symbol: string,
-    @Query('from') from?: string,
+    @Query('from') from?: string, // essa parte permite adicionar período em data no request, podendo ser o começo, o fim ou ambos
     @Query('to') to?: string,
   ) {
     return this.pricesService.getPricesWithReport(symbol, from, to);

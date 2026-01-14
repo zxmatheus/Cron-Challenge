@@ -14,11 +14,10 @@ datasource db {
 }
 
 model Moeda {
-  id            String   @id @default(uuid())
-  nome          String
-  symbol        String   @unique
-  precos        Preco[]
-  dataDeCriacao DateTime @default(now())
+  id     String  @id @default(uuid())
+  nome   String
+  symbol String  @unique
+  precos Preco[]
 }
 
 model Preco {

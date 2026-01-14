@@ -26,10 +26,10 @@ export class PricesService {
       await this.savePrice('bitcoin', 'btc', data.bitcoin.usd);
       await this.savePrice('ethereum', 'eth', data.ethereum.usd);
       await this.savePrice('solana', 'sol', data.solana.usd);
-      await this.savePrice('binance coin', 'bnb', data.binancecoin.usd);
+      await this.savePrice('binance coin', 'bnb', data.binancecoin.usd); // 4 moedas apresentadas na plataforma coin gecko como as mais relevantes
     } catch (error: any) {
       if (error.response?.status === 429) {
-        console.warn('Rate limit da API Coin Gecko atingido, pulando execução');
+        console.warn('Rate limit da API Coin Gecko atingido, pulando execução'); // API gratuito da coingecko tem limites para chamadas por minuto
         return;
       }
 
@@ -39,7 +39,7 @@ export class PricesService {
 
   private async savePrice(nome: string, symbol: string, valor: number) {
     const moeda = await this.prisma.moeda.upsert({
-      where: { symbol },
+      where: { symbol }, // o símbolo é utilizado para identificar a moeda vinda da API, não pode haver duas moedas com o mesmo símbolo
       update: {},
       create: {
         nome,
@@ -48,15 +48,18 @@ export class PricesService {
     });
 
     const ultimoPreco = await this.prisma.preco.findFirst({
+      // Pega o preço mais recente da moeda contido no banco de dados
       where: { moedaId: moeda.id },
       orderBy: { dataDoValor: 'desc' },
     });
 
     if (ultimoPreco && ultimoPreco.valor.equals(valor)) {
+      // Se o preço atual for igual ao preço mais recente, retorna, para evitar duplicação
       return;
     }
 
     await this.prisma.preco.create({
+      // Gera instância do preço da moeda em dólares
       data: {
         moedaId: moeda.id,
         valor,
@@ -66,10 +69,12 @@ export class PricesService {
   }
 
   async listCoins() {
+    // Retorna todas as moedas cadastradas
     return this.prisma.moeda.findMany();
   }
 
   async getPricesWithReport(symbol: string, from?: string, to?: string) {
+    // Retorna o relatório de preços de uma moeda, incluindo o menor, maior, média e variação percentual. Traz também o histórico dos preços.
     const moeda = await this.prisma.moeda.findUnique({
       where: { symbol },
     });
@@ -88,13 +93,14 @@ export class PricesService {
               dataDoValor: {
                 ...(fromDate && { gte: fromDate }),
                 ...(toDate && { lte: toDate }),
-              },
+              }, // Filtrando preços pelo período desejado
             }
           : {}),
       },
       orderBy: { dataDoValor: 'asc' },
     });
     if (precos.length === 0) {
+      //retorno se não houver preços registrados ainda
       return {
         asset: {
           name: moeda.nome,
@@ -120,6 +126,7 @@ export class PricesService {
     const variationPercent = ((last - first) / first) * 100;
 
     return {
+      // retorno do relatório
       asset: {
         name: moeda.nome,
         symbol: moeda.symbol,
