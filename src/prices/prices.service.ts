@@ -11,13 +11,13 @@ export class PricesService {
   @Cron(CronExpression.EVERY_5_MINUTES)
   async collectPrices() {
     try {
-      console.log('Collecting prices...');
+      console.log('Coletando preços...');
 
       const { data } = await axios.get(
         'https://api.coingecko.com/api/v3/simple/price',
         {
           params: {
-            ids: 'bitcoin,ethereum',
+            ids: 'bitcoin,ethereum,solana,binancecoin',
             vs_currencies: 'usd',
           },
         },
@@ -25,6 +25,8 @@ export class PricesService {
 
       await this.savePrice('bitcoin', 'btc', data.bitcoin.usd);
       await this.savePrice('ethereum', 'eth', data.ethereum.usd);
+      await this.savePrice('solana', 'sol', data.solana.usd);
+      await this.savePrice('binance coin', 'bnb', data.binancecoin.usd);
     } catch (error: any) {
       if (error.response?.status === 429) {
         console.warn('Rate limit da API Coin Gecko atingido, pulando execução');
