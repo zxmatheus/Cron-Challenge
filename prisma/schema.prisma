@@ -13,13 +13,22 @@ datasource db {
   provider = "postgresql"
 }
 
-model moeda {
-  id         Int    @id @default(autoincrement())
-  nome       String
-  preco      Float
-  moedaPreco String
+model Moeda {
+  id            String   @id @default(uuid())
+  nome          String
+  symbol        String   @unique
+  precos        Preco[]
+  dataDeCriacao DateTime @default(now())
+}
 
-  hora DateTime
+model Preco {
+  id          String   @id @default(uuid())
+  moedaId     String
+  valor       Decimal
+  dataDoValor DateTime
 
-  @@unique([nome, moedaPreco, hora])
+  moeda Moeda @relation(fields: [moedaId], references: [id])
+
+  @@unique([moedaId, dataDoValor])
+  @@index([moedaId, dataDoValor])
 }
