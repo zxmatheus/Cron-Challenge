@@ -233,6 +233,7 @@ Em ordem cronológica, assim funciona o job:
 - Relatórios comparativos: O cliente até o momento só pode buscar relatórios de cada moeda, uma informação importante que ele poderia ter seria um comparativo dos valores e do crescimento dos valores da cada moeda.
 - Informações mais estudadas: Como alguém que não tem muito conhecimento em criptomoedas, posso não ter revelado as informações de forma mais intuitiva ou interessante para aqueles que buscam esses tipos de relatórios. Com conhecimento maior na área, poderia ter gerado uma API mais útil para os entusiastas utilizarem.
 - Código mais pensado em utilização contínua: O relatório é mais visível para quantidades não tão grande de dados coletados. Se ele fosse estruturado pensando mais em utilização em um longo período de tempo, soluções como rotação das entradas e paginação poderiam ter sido pensadas e implementadas.
+- Documentação mais detalhada: Apesar de existir um README explicando o funcionamento geral, uma documentação mais aprofundada dos endpoints e do formato das respostas poderia facilitar o uso da API por outros desenvolvedores.
 
 ### Se esse job precisasse processar dados de 1.000 ativos a cada 5 minutos, o que você mudaria na arquitetura?
 
@@ -240,7 +241,7 @@ Em ordem cronológica, assim funciona o job:
 - Controle mais sofisticado de quantidade de chamadas: Mesmo com um plano pago de acesso à API, existe limite na quantidade de chamadas que podem ser feitas por minuto, então um algoritmo que garanta que as chamadas para gerar uma API consistente nunca ultrapassem o limite seria necessário.
 - Tratamento de erros mais robusto: Com o fluxo de chegada de informações sendo bem mais acelerado, a chance de algum erro de conflito ou de sincronização de jobs aumenta bastante. Sendo também uma plataforma que funciona tecnicamente em tempo real, é preciso que exista um sistema de tratamento de erros que lide com múltiplas possibilidades de problemas e consiga contorná-los antes que as informações da API percam sua relevância com o tempo.
 - Estruturação do banco de dados: Com a grande quantidade de entradas no banco de dados, mais campos seriam necessários para filtrar as informações relevantes para os clientes. Além disso, a publicação do banco de forma segura deveria ser feita para a garantia de que os dados não seriam perdidos.
-
+- Separação mais clara de responsabilidades: Com o crescimento do sistema, seria interessante separar melhor o que é responsabilidade do job de coleta e o que é responsabilidade da API de leitura, evitando que uma parte impacte diretamente a outra.
 
 
    
