@@ -17,8 +17,8 @@ export class PricesService {
         'https://api.coingecko.com/api/v3/simple/price',
         {
           params: {
-            ids: 'bitcoin,ethereum,solana,binancecoin',
-            vs_currencies: 'usd',
+            ids: 'bitcoin,ethereum,solana,binancecoin', // dessa forma são os ids na plataforma da coingecko
+            vs_currencies: 'usd', // filtrando preços em dolar
           },
         },
       );
@@ -39,7 +39,7 @@ export class PricesService {
 
   private async savePrice(nome: string, symbol: string, valor: number) {
     const moeda = await this.prisma.moeda.upsert({
-      where: { symbol }, // o símbolo é utilizado para identificar a moeda vinda da API, não pode haver duas moedas com o mesmo símbolo
+      where: { symbol }, // o símbolo é utilizado para identificar a moeda vinda da API, não pode haver duas moedas com o mesmo símbolo no nosso banco
       update: {},
       create: {
         nome,
