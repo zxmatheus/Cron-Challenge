@@ -55,3 +55,29 @@ Os relatórios expostos pela API incluem:
     ``` bash
      npm run start:dev
     ```
+Agora de 5 em 5 minutos, ao aparecer a mensagem "Coletando preços..." no log, a extração dos dados atuais de cada moeda estará sendo feita.
+   
+A API estará disponível em:
+ ```
+http://localhost:3000
+
+ ```
+### Exemplos de chamadas
+
+**GET**
+
+- `http://localhost:3000/prices/btc`  
+  Retorna o relatório e histórico de preços do **Bitcoin** durante todo o período coletado.
+
+- `http://localhost:3000/prices/eth`  
+  Retorna o relatório e histórico de preços do **Ethereum** durante todo o período coletado.
+
+- `http://localhost:3000/prices/sol`  
+  Retorna o relatório e histórico de preços da **Solana** durante todo o período coletado.
+
+- `http://localhost:3000/prices/bnb`  
+  Retorna o relatório e histórico de preços da **Binance Coin** durante todo o período coletado.
+
+- `http://localhost:3000/prices/btc?from=2025-12-31&to=2026-02-01`  
+  Retorna o relatório e histórico de preços do **Bitcoin** filtrado para o período de janeiro de 2026.
+
