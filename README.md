@@ -40,7 +40,7 @@ Os relatórios expostos pela API incluem:
    ```
 3. Crie um arquivo .env na raiz do projeto com o seguinte conteúdo:
    ``` env
-   DATABASE_URL=postgresql://postgres:postgres@db:5432/prices
+   DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
 
    ```
 4. Suba os contêineres do docker: 
